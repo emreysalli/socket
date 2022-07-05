@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 import { useEffect, useState } from "react";
 
 const socket=io.connect("http://localhost:3001");
+// const socket=io.connect("wss://socketsbay.com/wss/v2/2/demo/");
+
 
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
   },[socket]);
   return (
     <div className="App">
-      <div>
+      <div style={{marginBottom:20}}>
         <input placeholder='room number' onChange={(event)=>{setRoomNum(event.target.value)}}/>
         <button onClick={joinRoom}>join room</button>
       </div>
