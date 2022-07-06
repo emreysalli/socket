@@ -20,7 +20,9 @@ function App() {
 
   const joinRoom=()=>{
     if(roomNum!==""){
-      socket.emit("join_room",roomNum);
+      socket.emit("join_room",roomNum,returnMsg=>{
+        alert(returnMsg);
+      });
     }
   };
 
