@@ -8,11 +8,15 @@ const socket=io.connect("http://localhost:3001");
 
 
 function App() {
-
+  const [socketId,setSocketId]=useState("");
   const [roomNum,setRoomNum]=useState("");
 
   const [message,setMessage]=useState("");
   const [messageReceived,setMessageReceived]=useState("");
+
+  socket.on("connect",()=>{
+    setSocketId(socket.id);
+  });
 
   const joinRoom=()=>{
     if(roomNum!==""){
@@ -23,6 +27,12 @@ function App() {
   const sendMessage=()=>{
      socket.emit("send_message",{message,roomNum});
   };
+
+  const broadcast=()=>{
+    socket.emit("broadcast",{message});
+  };
+
+  // socket.timeout(5000).emit("send_message",{message,roomNum});
 
   useEffect(()=>{
     socket.on("receive_message",(data)=>{
@@ -38,6 +48,9 @@ function App() {
       </div>
       <input placeholder="Message" onChange={(event)=>{setMessage(event.target.value)}}/>
       <button onClick={sendMessage}>Send</button>
+      <button onClick={broadcast}>Broadcast</button>
+      <h3>Socket id:</h3>
+      {socketId}
       <h1>Message:</h1>
       {messageReceived}
     </div>
