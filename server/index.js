@@ -25,8 +25,14 @@ io.on("connection",(socket)=>{
     socket.on("send_message",(data)=>{
         // console.log(data);
         // socket.broadcast.emit("receive_message",data);
-        socket.to(data.roomNum).emit("receive_message",data);
+        socket.to(data.roomNum).emit("receive_message",data); //aynı odadaki diger clientlara mesaj gonder
     });
+
+    socket.on("broadcast",(data)=>{
+        socket.broadcast.emit("receive_message",data); // gecerli client haric diger butun clientlara gonderir
+        // io.emit("receive_message",data); //butun clientlara gonderir
+    });
+
 });
 
 server.listen(3001,()=>{
