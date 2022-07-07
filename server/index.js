@@ -23,6 +23,12 @@ io.on("connection",(socket)=>{
         callback(`Joined ${data}`);
     })
 
+    socket.on("leave_room",(data,callback)=>{
+        io.in(data.id).socketsLeave(data.roomNum);
+        console.log("leave room");
+        callback(`Leaved ${data.roomNum}`);
+    })
+
     socket.on("send_message",(data)=>{
         // console.log(data);
         // socket.broadcast.emit("receive_message",data);
@@ -32,6 +38,10 @@ io.on("connection",(socket)=>{
     socket.on("broadcast",(data)=>{
         socket.broadcast.emit("receive_message",data); // gecerli client haric diger butun clientlara gonderir
         // io.emit("receive_message",data); //butun clientlara gonderir
+    });
+
+    socket.onAny((event, ...args) => {
+        console.log(`got ${event}`);
     });
 
 });
